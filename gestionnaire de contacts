@@ -1,0 +1,151 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_CONTACTS 100
+
+int elem;
+typedef struct {
+  char nom[50];
+  char prenom[50];
+  int numero;
+  char adresse[50];
+} contact;
+
+contact c[MAX_CONTACTS];
+
+void ajout() {
+  int i;
+  for (i = 0; i < elem && i < MAX_CONTACTS; i++) {
+    system("clear"); 
+    printf("-------------------------\n");
+    printf("contact n⁰ %d\n", i + 1);
+    printf(" nom  :");
+    scanf("%s", c[i].nom);
+    printf(" prenom:");
+    scanf("%s", c[i].prenom);
+    printf(" numero :");
+    scanf("%d", &c[i].numero);
+    printf("adresse : ");
+    scanf("%s", c[i].adresse);
+    printf("-------------------------\n");
+    printf("Contact ajouté avec succès.\n");
+  }
+}
+
+void affichage() {
+  int i;
+  for (i = 0; i < elem ; i++) {
+    printf("contact n:%d\n",i+1);
+    printf("nom:%s\n",c[i].nom);
+    printf("prenom:%s\n",c[i].prenom);
+    printf( "numero %d\n", c[i].numero);
+    printf("adresse %s\n", c[i].adresse);
+  }
+}
+void recherche (){ 
+  char nom[30],prenom[30];
+  int i;
+  int test,test2;
+  int zero;
+  printf("saisi le nom de contact:");
+  scanf("%s",&nom);
+  printf("saisi le prenom de contact:");
+  scanf("%s",&prenom);
+  
+  zero=0;
+  
+  for (i = 0; i < elem ; i++) { 
+    test=strcmp(nom,c[i].nom);
+    test2=strcmp(prenom,c[i].prenom);
+    if(test==0 || test2==0 ){ 
+      zero=1;
+    }
+  } 
+  if (zero) {
+      affichage();
+  } else {
+      printf("Contact non trouvé\n");
+  }
+
+
+  } 
+void modifier_supprimer(){
+ int i;
+int chx;
+  char nom[30];
+  printf("insere 1 pour modifer un contact\n inserer 2 pour supprimer un contat: \n");
+  scanf("%d",&chx);
+  for(i=0;i<elem;i++){
+    if(chx==1){
+      printf("insere le nom du contat que tu veux modifier:\n");
+      scanf("%s",&nom);
+      if(strcmp(nom,c[i].nom)==0){
+        printf("insere le nouveau nom:\n");
+        scanf("%s",&c[i].nom);
+        printf("insere le nouveau prenom:\n");
+        scanf("%s",&c[i].prenom);
+        }
+      else{
+        printf("contact non trouve !!!");
+      }
+    }
+  else{
+
+    printf("insere le nom du contact que tu veux supprimer:\n");
+scanf("%s",&nom);
+    if(strcmp(nom,c[i].nom)==0){
+      // Utilisez strcpy pour copier une chaîne vide dans les champs de la structure
+      strcpy(c[i].nom, "");
+      strcpy(c[i].prenom, "");
+      c[i].numero = 0;
+      strcpy(c[i].adresse, "");
+      printf("le contact a ete supprimer\n");
+    }
+  }
+
+  }
+}
+int main() {
+  contact applique;
+  int choix;
+
+  do {
+    system("clear"); // Utilisation de "clear" pour Unix/Linux, utilisez "cls" pour Windows
+    printf("******************************\n");
+    printf("gestionnaire de contacts :\n");
+    printf("******************************\n\n");
+     printf("         - MENU:");
+    printf(" 1- ajouter un contact :\n ");
+    printf("2- affichage de la liste des  contact :\n ");
+    printf("3- recherche  :\n ");
+    printf("4- modifier un contact supprimer  :\n ");
+    printf("0-quitter\n");
+    printf("******************************\n\n");
+    printf("------------------------------\n");
+    printf("inserer un num :");
+    scanf("%d", &choix);
+
+    switch (choix) {
+      case 1:
+        printf("saisir le nombre d'éléments du tableau: ");
+        scanf("%d", &elem);
+        ajout();
+        break;
+      case 2:
+        affichage();
+        break;
+      case 3:
+       recherche ();
+        break;
+      case 4:
+        modifier_supprimer();
+        break;
+      default:
+        printf("erreur de saisie ");
+        break;
+    }
+  } while (choix != 0); //pour quitter la boucle
+
+  return 0;
+}
